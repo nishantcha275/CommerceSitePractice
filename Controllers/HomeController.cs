@@ -21,25 +21,38 @@ namespace CommerceSitePractice.Controllers
             _loginServices=loginServices;
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginClass loginClass)
         {
-            var user = await _loginServices.AuthenticateLoginAsync(loginClass.Username , loginClass.Password); 
-            if (user == null)
+            if (!ModelState.IsValid)
             {
-                return Unauthorized();
+                return BadRequest(ModelState);
             }
-            else
+
+            try
             {
+                var user = await _loginServices.AuthenticateLoginAsync(loginClass.Username, loginClass.Password);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Unauthorized(ModelState);
+                }
                 return Ok(user);
             }
-        }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
 
-        public IActionResult Privacy()
+        }
+            public IActionResult Privacy()
         {
             return View();
         }
