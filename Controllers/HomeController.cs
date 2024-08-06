@@ -18,7 +18,7 @@ namespace CommerceSitePractice.Controllers
         private readonly ILoginServices _loginServices;
         public HomeController(ILoginServices loginServices)
         {
-            _loginServices=loginServices;
+            _loginServices = loginServices;
         }
 
         [HttpGet]
@@ -37,7 +37,7 @@ namespace CommerceSitePractice.Controllers
 
             try
             {
-                var user = await _loginServices.AuthenticateLoginAsync(loginClass.Username, loginClass.Password);
+                var user = await _loginServices.AuthenticateLoginAsync(loginClass);
 
                 if (user == null)
                 {
@@ -52,7 +52,40 @@ namespace CommerceSitePractice.Controllers
             }
 
         }
-            public IActionResult Privacy()
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(LoginClass loginClass)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(loginClass);
+            }
+
+            try
+            {
+                var result = await _loginServices.RegisterAsync(loginClass);
+
+                if (result.Success)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                ModelState.AddModelError("", result.ErrorMessage);
+                return View(loginClass);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "An unexpected error occurred. Please try again later.");
+                return View(loginClass);
+            }
+        }
+
+        public IActionResult Privacy()
         {
             return View();
         }

@@ -1,6 +1,6 @@
 ﻿@model DataAccessLayer.Entities.LoginClass
 
-@{
+@* @{
     ViewData["Title"] = "Login";
 }
 
@@ -15,7 +15,7 @@
                 <label asp-for="Username" class="control-label"></label>
                 <input asp-for="Username" class="form-control" />
                 <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
+            </div> *@
            @*  <div class="form-group">
                 <label asp-for="Gender" class="control-label"></label>
                 <input asp-for="Gender" class="form-control" />
@@ -31,7 +31,7 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div> *@
-            <div class="form-group">
+           @*  <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
@@ -50,3 +50,56 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+ *@
+
+<section>
+    <div class="row d-flex justify-content-center col-12">
+        <div class="col-4 border border-primary rounded m-20">
+            <form id="account" method="post" class="py-5">
+                <div class="d-flex justify-content-center">
+                    <i class="icon-map-marker icon-4x text-success"></i>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+                <div class="form-group ">
+                    <input asp-for="Username" class="form-control" placeholder="Username" required autofocus />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group ">
+                    <input asp-for="Password" class="form-control" placeholder="Password" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="checkbox">
+                       @*  <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label> *@
+                        <h6>Remember me?</h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-lg btn-success btn-block">Sign in</button>
+                </div>
+            </form>
+        </div>
+        <div class="row col-12">
+            <p class="col-12">
+               @*  <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a> *@
+               <h6 style="color:blue">
+                    Forgot your password?
+               </h6>
+                
+            </p>
+            <p class="col-12">
+                @* <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a> *@
+                <a asp-controller="Home" asp-action="Register">Register as a new user</a>
+                @* <h6 style="color:blue">Register as a new user</h6> *@
+            </p>
+        </div>
+    </div>
+</section>
